@@ -20,10 +20,6 @@ PitchShifterAudioProcessorEditor::PitchShifterAudioProcessorEditor (PitchShifter
 	semitonesLabel.setColour(Label::textColourId, Colours::black);
 	addAndMakeVisible(semitonesLabel);
 
-	effectlevelLabel.setText("Level of Effect", dontSendNotification);
-	effectlevelLabel.setColour(Label::textColourId, Colours::black);
-	addAndMakeVisible(effectlevelLabel);
-
 	// Create sliders
 	semitonesSlider.setColour(Slider::trackColourId, Colours::orangered);
 	semitonesSlider.setTextBoxStyle(Slider::TextBoxLeft, false, 60, 20);
@@ -32,14 +28,7 @@ PitchShifterAudioProcessorEditor::PitchShifterAudioProcessorEditor (PitchShifter
 	addAndMakeVisible(semitonesSlider);
 	semitonesAttachment.reset(new SliderAttachment(valueTreeState, "SemiTones", semitonesSlider));
 
-	effectlevelSlider.setColour(Slider::trackColourId, Colours::orangered);
-	effectlevelSlider.setTextBoxStyle(Slider::TextBoxLeft, false, 60, 20);
-	effectlevelSlider.setColour(Slider::textBoxBackgroundColourId, Colours::white);
-	effectlevelSlider.setColour(Slider::textBoxTextColourId, Colours::black);
-	addAndMakeVisible(effectlevelSlider);
-	effectlevelAttachment.reset(new SliderAttachment(valueTreeState, "EffLevel", effectlevelSlider));
-
-    setSize (TitleWidth + 2 * Margin, TitleHeight + 2 * SliderWidth + 4 * Margin);
+    setSize (TitleWidth + 2 * Margin, TitleHeight + SliderWidth + 3 * Margin);
 }
 
 PitchShifterAudioProcessorEditor::~PitchShifterAudioProcessorEditor()
@@ -64,9 +53,4 @@ void PitchShifterAudioProcessorEditor::resized()
 	semitonesLabel.setBounds(x, y, LabelWidth, LabelHeight);
 	x += LabelWidth;
 	semitonesSlider.setBounds(x, y, SliderLength, SliderWidth);
-	y += SliderWidth + Margin;
-	x = Margin;
-	effectlevelLabel.setBounds(x, y, LabelWidth, LabelHeight);
-	x += LabelWidth;
-	effectlevelSlider.setBounds(x, y, SliderLength, SliderWidth);
 }
