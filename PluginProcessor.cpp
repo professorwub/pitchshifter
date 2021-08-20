@@ -19,17 +19,12 @@ PitchShifterAudioProcessor::PitchShifterAudioProcessor()
 			std::make_unique<AudioParameterFloat>("SemiTones", // parameter ID
 												  "Semitones Shift", // parameter name
 												  NormalisableRange<float>(-6.0f, 6.0f, 1.0f),
-												  0.0f), // default
-			std::make_unique<AudioParameterFloat>("EffLevel", // parameter ID
-												  "Effect Level", // parameter name
-												  NormalisableRange<float>(0.0f,1.0f,0.1f),
 												  0.0f) // default
 		})
 {
     
 
 	semitonesParam = parameters.getRawParameterValue("SemiTones");
-    effectlevelParam = parameters.getRawParameterValue("EffLevel");
 }
 
 PitchShifterAudioProcessor::~PitchShifterAudioProcessor()
@@ -117,7 +112,6 @@ void PitchShifterAudioProcessor::prepareToPlay (double sampleRate, int samplesPe
         shifterBank[ch] = std::unique_ptr<SHIFTER>(new SHIFTER);
         shifterBank[ch]->init(order);
     }
-    mixbuffer.setSize(getNumInputChannels(), samplesPerBlock);
 }
 
 void PitchShifterAudioProcessor::releaseResources()
@@ -161,16 +155,10 @@ void PitchShifterAudioProcessor::processBlock(AudioBuffer<float>& buffer, MidiBu
 		buffer.clear(i, 0, buffer.getNumSamples());
 
 	float hopratio = pow(2.0f, *semitonesParam / 12.0f);
-    AudioBuffer<float> tmpBuffer(mixbuffer.getArrayOfWritePointers(), buffer.getNumChannels(), buffer.getNumSamples());
-    for (int ch = 0; ch < buffer.getNumChannels(); ++ch)
-        tmpBuffer.copyFrom(ch, 0, buffer, ch, 0, buffer.getNumSamples());
-    tmpBuffer.applyGain(1.0 - *effectlevelParam);
-    buffer.applyGain(*effectlevelParam);
+
     for (auto ch = 0; ch < totalNumInputChannels; ch++)
-    {
         shifterBank[ch]->step(buffer.getWritePointer(ch), buffer.getNumSamples(), hopratio);
-        buffer.addFrom(ch, 0, tmpBuffer.getReadPointer(ch), buffer.getNumSamples());
-    }
+
 }
 
 //==============================================================================
