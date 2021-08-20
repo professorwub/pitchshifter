@@ -71,8 +71,6 @@ private:
 
 	AudioProcessorValueTreeState parameters;
 	std::atomic<float>* semitonesParam = nullptr;
-    std::atomic<float>* effectlevelParam = nullptr;
-    AudioBuffer<float> mixbuffer;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (PitchShifterAudioProcessor)
 };
