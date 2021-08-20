@@ -50,9 +50,5 @@ private:
 	Slider semitonesSlider;
 	std::unique_ptr<SliderAttachment> semitonesAttachment;
 
-	Label effectlevelLabel;
-	Slider effectlevelSlider;
-	std::unique_ptr<SliderAttachment> effectlevelAttachment;
-
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (PitchShifterAudioProcessorEditor)
 };
